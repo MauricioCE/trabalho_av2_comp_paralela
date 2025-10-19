@@ -13,13 +13,11 @@ public class Cronometro {
         this.tempoInicial = System.nanoTime();
     }
 
-    public void end() {
-        long tempoFinal = System.nanoTime();
-        this.duracao = (double) (tempoFinal - tempoInicial) / 1_000_000.0;
-    }
-
     public double getDuracao() {
+        if (duracao == 0.0) {
+            long tempoFinal = System.nanoTime();
+            this.duracao = (double) (tempoFinal - tempoInicial) / 1_000_000.0;
+        }
         return duracao;
     }
-
 }

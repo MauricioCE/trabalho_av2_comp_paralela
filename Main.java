@@ -1,26 +1,28 @@
+import Algoritmos.CountingSort.CountingSortSerial;
 import Algoritmos.MergeSort.MergeParalelo;
 import Algoritmos.MergeSort.MergeSortSerial;
-import Common.Cronometro;
 import Common.Helper;
 
 public class Main {
 
     public static void main(String[] args) {
-        Cronometro c = Cronometro.novo();
         int[] arr = Helper.criarArray(10_000_000);
+
         MergeSortSerial mergerSortSerial = new MergeSortSerial();
-        MergeParalelo mergerSortParalelo = new MergeParalelo();
+        MergeParalelo mergerSortParalelo = new MergeParalelo(20);
+
+        CountingSortSerial countingSortSerial = new CountingSortSerial();
 
         try {
-            c.start();
-            mergerSortSerial.sort(arr);
-            c.end();
-            System.out.println(c.getDuracao());
+            mergerSortSerial.sort(Helper.copiarArray(arr));
+            System.out.println(mergerSortSerial.getDuracao());
 
-            c.start();
-            mergerSortParalelo.sort(arr, 100);
-            c.end();
-            System.out.println(c.getDuracao());
+            mergerSortParalelo.sort(Helper.copiarArray(arr));
+            System.out.println(mergerSortParalelo.getDuracao());
+
+            countingSortSerial.sort(Helper.copiarArray(arr));
+            System.out.println(countingSortSerial.getDuracao());
+
         } catch (Exception e) {
             System.out.println("Erro:\n" + e.toString());
         }

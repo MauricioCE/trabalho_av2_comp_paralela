@@ -1,20 +1,20 @@
 package Algoritmos.MergeSort;
 
-import Common.Cronometro;
+import Algoritmos.Base.SorteadorBase;
 
-public class MergeSortSerial {
+public class MergeSortSerial extends SorteadorBase {
 
+    @Override
     public void sort(int[] array) {
+
         if (array == null || array.length < 2) {
             System.out.println("Array nulo ou muito pequeno para medir tempo.");
             return;
         }
 
-        Cronometro cronometro = new Cronometro();
-
-        cronometro.start();
+        this.cronometro.start();
         mergeSort(array, 0, array.length - 1);
-        cronometro.end();
+        this.duracao = this.cronometro.getDuracao();
     }
 
     private void mergeSort(int[] array, int inicio, int fim) {
@@ -64,12 +64,4 @@ public class MergeSortSerial {
             k++;
         }
     }
-
-    public static void printArray(int[] arr) {
-        for (int i = 0; i < arr.length; ++i) {
-            System.out.print(arr[i] + " ");
-        }
-        System.out.println();
-    }
-
 }

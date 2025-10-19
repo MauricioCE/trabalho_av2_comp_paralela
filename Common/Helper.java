@@ -1,6 +1,7 @@
 package Common;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,5 +37,9 @@ public class Helper {
         }
 
         return array;
+    }
+
+    public static int[] copiarArray(int[] array) {
+        return Arrays.copyOf(array, array.length);
     }
 }

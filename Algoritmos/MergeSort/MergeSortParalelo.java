@@ -2,15 +2,14 @@ package Algoritmos.MergeSort;
 
 import java.util.concurrent.ForkJoinPool;
 import Algoritmos.Base.SorteadorParalelo;
-import Algoritmos.Base.SorteadorParalelo;
 
-public class MergeParalelo extends SorteadorParalelo {
+public class MergeSortParalelo extends SorteadorParalelo {
 
-    public MergeParalelo() {
+    public MergeSortParalelo() {
         super();
     }
 
-    public MergeParalelo(int quantThreads) {
+    public MergeSortParalelo(int quantThreads) {
         super(quantThreads);
     }
 
@@ -24,12 +23,6 @@ public class MergeParalelo extends SorteadorParalelo {
         if (array == null || array.length < 2)
             return;
 
-        this.cronometro.start();
-
-        if (quantThreads <= 0)
-            quantThreads = 1;
-
-        try (ForkJoinPool pool = new ForkJoinPool(quantThreads)) {
         this.cronometro.start();
 
         if (quantThreads <= 0)

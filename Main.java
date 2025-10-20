@@ -1,6 +1,6 @@
 import Algoritmos.CountingSort.CountSortParalelo;
 import Algoritmos.CountingSort.CountSortSerial;
-import Algoritmos.MergeSort.MergeParalelo;
+import Algoritmos.MergeSort.MergeSortParalelo;
 import Algoritmos.MergeSort.MergeSortSerial;
 import Common.Helper;
 
@@ -11,7 +11,7 @@ public class Main {
         final int QUANT_THREADS = 1000;
 
         MergeSortSerial mergerSortSerial = new MergeSortSerial();
-        MergeParalelo mergerSortParalelo = new MergeParalelo(QUANT_THREADS);
+        MergeSortParalelo mergerSortParalelo = new MergeSortParalelo(QUANT_THREADS);
 
         CountSortSerial countingSortSerial = new CountSortSerial();
         CountSortParalelo countingSortParalelo = new CountSortParalelo(QUANT_THREADS);

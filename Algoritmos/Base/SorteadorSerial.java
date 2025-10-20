@@ -1,9 +1,14 @@
 package Algoritmos.Base;
 
+import Common.TipoDeAlgoritmo;
+
 public abstract class SorteadorSerial extends SorteadorBase {
     public SorteadorSerial() {
-        super();
+        super(TipoDeAlgoritmo.SERIAL);
     }
 
-    public abstract void sort(int[] array) throws Exception;
+    public int getQuantThreads() {
+        return 1;
+    }
+
 }

@@ -11,46 +11,44 @@ public class CountSortParalelo extends SorteadorParalelo {
         super();
     }
 
-    public CountSortParalelo(int quantThreads) {
-        super(quantThreads);
-    }
-
     @Override
     public String getNome() {
         return "Countsort Paralelo";
     }
 
     @Override
-    public void sort(int[] array) throws Exception {
+    public void sort(int[] array) throws Exception, OutOfMemoryError {
 
         if (array == null || array.length <= 1)
             return;
 
         cronometro.start();
 
-        int[] limites = Helper.encontrarMinimoMaximo(array);
-        int valorMinimo = limites[0];
-        int valorMaximo = limites[1];
         int tamanhoArray = array.length;
-        int tamanhoIntervalo = valorMaximo - valorMinimo + 1;
         int numeroThreads = Math.max(1, Math.min(quantThreads, tamanhoArray));
-        int[][] arraysContagemLocais = new int[numeroThreads][tamanhoIntervalo];
-        RecursiveAction[] tarefas = new RecursiveAction[numeroThreads];
-        int elementosPorParticao = tamanhoArray / numeroThreads;
-        int resto = tamanhoArray % numeroThreads;
-        int inicioAtual = 0;
 
-        for (int i = 0; i < numeroThreads; i++) {
-            int tamanhoParticao = elementosPorParticao + (i < resto ? 1 : 0);
-            int fimAtual = inicioAtual + tamanhoParticao;
+        try (ForkJoinPool pool = new ForkJoinPool(numeroThreads)) {
+            int[] limites = Helper.encontrarMinimoMaximo(array);
+            int valorMinimo = limites[0];
+            int valorMaximo = limites[1];
+            int tamanhoIntervalo = valorMaximo - valorMinimo + 1;
+            RecursiveAction[] tarefas = new RecursiveAction[numeroThreads];
+            int elementosPorParticao = tamanhoArray / numeroThreads;
+            int resto = tamanhoArray % numeroThreads;
+            int inicioAtual = 0;
+            int[][] arraysContagemLocais;
+            arraysContagemLocais = new int[numeroThreads][tamanhoIntervalo];
 
-            tarefas[i] = new CountSortAction(array, inicioAtual, fimAtual, arraysContagemLocais[i], valorMinimo);
+            for (int i = 0; i < numeroThreads; i++) {
+                int tamanhoParticao = elementosPorParticao + (i < resto ? 1 : 0);
+                int fimAtual = inicioAtual + tamanhoParticao;
 
-            inicioAtual = fimAtual;
-        }
+                tarefas[i] = new CountSortAction(array, inicioAtual, fimAtual, arraysContagemLocais[i], valorMinimo);
 
-        try (ForkJoinPool poolCustomizado = new ForkJoinPool(numeroThreads)) {
-            poolCustomizado.invoke(new RecursiveAction() {
+                inicioAtual = fimAtual;
+            }
+
+            pool.invoke(new RecursiveAction() {
                 @Override
                 protected void compute() {
                     invokeAll(tarefas);
@@ -58,6 +56,7 @@ public class CountSortParalelo extends SorteadorParalelo {
             });
 
             int[] arrayContagemGlobal = new int[tamanhoIntervalo];
+
             for (int[] contagemLocal : arraysContagemLocais) {
                 for (int i = 0; i < tamanhoIntervalo; i++) {
                     arrayContagemGlobal[i] += contagemLocal[i];
@@ -81,7 +80,8 @@ public class CountSortParalelo extends SorteadorParalelo {
             System.arraycopy(arrayOrdenado, 0, array, 0, tamanhoArray);
 
             this.duracao = cronometro.getDuracao();
-
+        } catch (OutOfMemoryError e) {
+            throw e;
         } catch (Exception e) {
             throw e;
         }

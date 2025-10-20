@@ -1,9 +1,10 @@
 package Algoritmos.CountingSort;
 
-import Algoritmos.Base.SorteadorBase;
+import Algoritmos.Base.SorteadorSerial;
 import Common.Helper;
 
-public class CountSortSerial extends SorteadorBase {
+public class CountSortSerial extends SorteadorSerial {
+
     public CountSortSerial() {
         super();
     }
@@ -21,7 +22,7 @@ public class CountSortSerial extends SorteadorBase {
 
         cronometro.start();
 
-        int maiorValor = Helper.encontrarMaximo(array);
+        int maiorValor = Helper.encontrarMinimoMaximo(array)[1];
         int[] arrayDeContagem = new int[maiorValor + 1];
         int[] arrayOrdenado = new int[array.length];
 

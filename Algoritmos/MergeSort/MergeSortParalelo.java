@@ -9,10 +9,6 @@ public class MergeSortParalelo extends SorteadorParalelo {
         super();
     }
 
-    public MergeSortParalelo(int quantThreads) {
-        super(quantThreads);
-    }
-
     @Override
     public String getNome() {
         return "Mergesort Paralelo";

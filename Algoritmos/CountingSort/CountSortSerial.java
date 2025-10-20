@@ -1,8 +1,9 @@
 package Algoritmos.CountingSort;
 
-import Algoritmos.Base.SorteadorBase;
+import Algoritmos.Base.SorteadorSerial;
+import Common.Helper;
 
-public class CountingSortSerial extends SorteadorBase {
+public class CountSortSerial extends SorteadorSerial {
 
     @Override
     public void sort(int[] array) {
@@ -12,26 +13,16 @@ public class CountingSortSerial extends SorteadorBase {
 
         cronometro.start();
 
-        int maiorValor = array[0];
-        int[] arrayDeContagem;
-        int[] arrayOrdenado;
-
-        // Achando o maior valor
-        for (int num : array) {
-            if (num > maiorValor) {
-                maiorValor = num;
-            }
-        }
-
-        arrayDeContagem = new int[maiorValor + 1];
-        arrayOrdenado = new int[array.length];
+        int maiorValor = Helper.encontrarMaximo(array);
+        int[] arrayDeContagem = new int[maiorValor + 1];
+        int[] arrayOrdenado = new int[array.length];
 
         // Fazendo a contagem
         for (int num : array) {
             arrayDeContagem[num]++;
         }
 
-        // Passo de soma do valor do índece anterior ao atual
+        // Parte que soma do valor do índece anterior ao atual
         for (int i = 1; i < arrayDeContagem.length; i++) {
             arrayDeContagem[i] += arrayDeContagem[i - 1];
         }
@@ -52,5 +43,4 @@ public class CountingSortSerial extends SorteadorBase {
 
         this.duracao = cronometro.getDuracao();
     }
-
 }

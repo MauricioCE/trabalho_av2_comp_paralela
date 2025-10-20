@@ -1,8 +1,8 @@
 package Algoritmos.MergeSort;
 
-import Algoritmos.Base.SorteadorBase;
+import Algoritmos.Base.SorteadorSerial;
 
-public class MergeSortSerial extends SorteadorBase {
+public class MergeSortSerial extends SorteadorSerial {
 
     @Override
     public void sort(int[] array) {

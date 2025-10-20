@@ -12,8 +12,6 @@ public abstract class SorteadorBase {
         this.duracao = 0.0;
     }
 
-    public abstract void sort(int[] array) throws Exception;
-
     public double getDuracao() {
         return this.duracao;
     }

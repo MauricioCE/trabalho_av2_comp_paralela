@@ -7,7 +7,21 @@ import Common.Helper;
 
 public class CountSortParalelo extends SorteadorParalelo {
 
-    public void sort(int[] array, int quantThreads) throws Exception {
+    public CountSortParalelo() {
+        super();
+    }
+
+    public CountSortParalelo(int quantThreads) {
+        super(quantThreads);
+    }
+
+    @Override
+    public String getNome() {
+        return "Countsort Paralelo";
+    }
+
+    @Override
+    public void sort(int[] array) throws Exception {
 
         if (array == null || array.length <= 1)
             return;

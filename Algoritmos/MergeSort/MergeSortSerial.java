@@ -4,6 +4,15 @@ import Algoritmos.Base.SorteadorSerial;
 
 public class MergeSortSerial extends SorteadorSerial {
 
+    public MergeSortSerial() {
+        super();
+    }
+
+    @Override
+    public String getNome() {
+        return "Mergesort Serial";
+    }
+
     @Override
     public void sort(int[] array) {
 

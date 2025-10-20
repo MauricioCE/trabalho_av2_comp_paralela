@@ -1,9 +1,17 @@
 package Algoritmos.CountingSort;
 
-import Algoritmos.Base.SorteadorSerial;
+import Algoritmos.Base.SorteadorBase;
 import Common.Helper;
 
-public class CountSortSerial extends SorteadorSerial {
+public class CountSortSerial extends SorteadorBase {
+    public CountSortSerial() {
+        super();
+    }
+
+    @Override
+    public String getNome() {
+        return "Countsort Serial";
+    }
 
     @Override
     public void sort(int[] array) {

@@ -16,4 +16,8 @@ public abstract class SorteadorBase {
         return this.duracao;
     }
 
+    public abstract String getNome();
+
+    public abstract void sort(int[] array) throws Exception;
+
 }

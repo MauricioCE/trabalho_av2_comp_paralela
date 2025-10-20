@@ -11,22 +11,22 @@ public class Main {
         final int QUANT_THREADS = 1000;
 
         MergeSortSerial mergerSortSerial = new MergeSortSerial();
-        MergeParalelo mergerSortParalelo = new MergeParalelo();
+        MergeParalelo mergerSortParalelo = new MergeParalelo(QUANT_THREADS);
 
         CountSortSerial countingSortSerial = new CountSortSerial();
-        CountSortParalelo countingSortParalelo = new CountSortParalelo();
+        CountSortParalelo countingSortParalelo = new CountSortParalelo(QUANT_THREADS);
 
         try {
             mergerSortSerial.sort(Helper.copiarArray(arr));
             System.out.println(mergerSortSerial.getDuracao());
 
-            mergerSortParalelo.sort(Helper.copiarArray(arr), QUANT_THREADS);
+            mergerSortParalelo.sort(Helper.copiarArray(arr));
             System.out.println(mergerSortParalelo.getDuracao());
 
             countingSortSerial.sort(Helper.copiarArray(arr));
             System.out.println(countingSortSerial.getDuracao());
 
-            countingSortParalelo.sort(Helper.copiarArray(arr), QUANT_THREADS);
+            countingSortParalelo.sort(Helper.copiarArray(arr));
             System.out.println(countingSortParalelo.getDuracao());
 
         } catch (Exception e) {

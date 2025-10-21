@@ -38,15 +38,15 @@ public class GeradorDeMetricas {
         int[] tamanhosArr = { 1000, 10000, 100000, 1000000, 10000000 };
         List<Metrica> resultadorArr = new ArrayList<>(quantThreadsArr.length * tamanhosArr.length * algoritmos.length);
 
+        int count = 0;
+        int total = quantThreadsArr.length * tamanhosArr.length * algoritmos.length;
+        double duracaoTotal = 0.0;
+
         for (int tamanho : tamanhosArr) {
             int[] arr = Helper.gerarArrayDeInteiros(seed, tamanho, 3 * tamanho + 1);
 
             for (int quantThreads : quantThreadsArr) {
                 for (SorteadorBase algoritmo : algoritmos) {
-                    // System.out.println("*** Testando " + algoritmo.getNome() + " | Tamanho: " +
-                    // tamanho
-                    // + " | Threads: " + quantThreads + " ***");
-
                     if (algoritmo instanceof SorteadorParalelo) {
                         ((SorteadorParalelo) algoritmo).setQuantThreads(quantThreads);
                     }
@@ -56,7 +56,14 @@ public class GeradorDeMetricas {
                         Metrica metrica = new Metrica(algoritmo.getNome(), algoritmo.getTipo().name(),
                                 algoritmo.getDuracao(), algoritmo.getQuantThreads(), tamanho);
                         resultadorArr.add(metrica);
-                        System.out.println(algoritmo.getDuracao());
+                        duracaoTotal += algoritmo.getDuracao();
+
+                        System.out.println(metrica.getNomeAlgoritmo());
+
+                        System.out.println("Duração: " + algoritmo.getDuracao());
+                        System.out.println("Progresso: " + ++count + "/" + total);
+                        System.out.println("-------------------------------");
+
                     } catch (Exception e) {
                         Metrica metrica = new Metrica(algoritmo.getNome(), algoritmo.getTipo().name(),
                                 -1, algoritmo.getQuantThreads(), tamanho);
@@ -66,7 +73,10 @@ public class GeradorDeMetricas {
             }
         }
 
-        // Helper.imprimirTabelaMetricas(resultadorArr);
+        String saida = String.format(Locale.US, "\n=> Duração total dos testes: %.2f segundos\n",
+                duracaoTotal / 1000.0);
+        System.out.println(saida);
+
         exportarParaCSV(resultadorArr, "metricas_resultados.csv");
     }
 
@@ -76,7 +86,7 @@ public class GeradorDeMetricas {
             return;
         }
 
-        final String NOME_PASTA = "../Resultados";
+        final String NOME_PASTA = "Resultados";
 
         try {
             Path pastaResultados = Paths.get(NOME_PASTA);

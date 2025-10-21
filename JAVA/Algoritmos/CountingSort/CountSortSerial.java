@@ -50,6 +50,8 @@ public class CountSortSerial extends SorteadorSerial {
         // parâmetro
         System.arraycopy(arrayOrdenado, 0, array, 0, array.length);
 
-        this.duracao = cronometro.getDuracao();
+        double a = cronometro.getDuracao();
+
+        this.duracao = a;
     }
 }

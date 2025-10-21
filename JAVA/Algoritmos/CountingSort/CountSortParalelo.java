@@ -2,14 +2,13 @@ package Algoritmos.CountingSort;
 
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
+import java.util.stream.IntStream;
+
 import Algoritmos.Base.SorteadorParalelo;
 import Common.Helper;
+import java.util.concurrent.ForkJoinTask;
 
 public class CountSortParalelo extends SorteadorParalelo {
-
-    public CountSortParalelo() {
-        super();
-    }
 
     @Override
     public String getNome() {
@@ -25,7 +24,12 @@ public class CountSortParalelo extends SorteadorParalelo {
         cronometro.start();
 
         int tamanhoArray = array.length;
-        int numeroThreads = Math.max(1, Math.min(quantThreads, tamanhoArray));
+
+        if (quantThreads <= 0)
+            quantThreads = 1;
+
+        // int numeroThreads = Math.max(1, Math.min(quantThreads, tamanhoArray));
+        int numeroThreads = quantThreads;
 
         try (ForkJoinPool pool = new ForkJoinPool(numeroThreads)) {
             int[] limites = Helper.encontrarMinimoMaximo(array);
@@ -36,8 +40,7 @@ public class CountSortParalelo extends SorteadorParalelo {
             int elementosPorParticao = tamanhoArray / numeroThreads;
             int resto = tamanhoArray % numeroThreads;
             int inicioAtual = 0;
-            int[][] arraysContagemLocais;
-            arraysContagemLocais = new int[numeroThreads][tamanhoIntervalo];
+            int[][] arraysContagemLocais = new int[numeroThreads][tamanhoIntervalo];
 
             for (int i = 0; i < numeroThreads; i++) {
                 int tamanhoParticao = elementosPorParticao + (i < resto ? 1 : 0);
@@ -51,17 +54,32 @@ public class CountSortParalelo extends SorteadorParalelo {
             pool.invoke(new RecursiveAction() {
                 @Override
                 protected void compute() {
-                    invokeAll(tarefas);
+                    ForkJoinTask.invokeAll(tarefas);
                 }
             });
 
             int[] arrayContagemGlobal = new int[tamanhoIntervalo];
 
-            for (int[] contagemLocal : arraysContagemLocais) {
-                for (int i = 0; i < tamanhoIntervalo; i++) {
-                    arrayContagemGlobal[i] += contagemLocal[i];
+            // for (int[] contagemLocal : arraysContagemLocais) {
+            // for (int i = 0; i < tamanhoIntervalo; i++) {
+            // arrayContagemGlobal[i] += contagemLocal[i];
+            // }
+            // }
+
+            pool.invoke(new RecursiveAction() {
+                @Override
+                protected void compute() {
+                    ForkJoinTask.invokeAll(IntStream.range(0, numeroThreads)
+                            .mapToObj(i -> new RecursiveAction() {
+                                @Override
+                                protected void compute() {
+                                    for (int j = 0; j < tamanhoIntervalo; j++) {
+                                        arrayContagemGlobal[j] += arraysContagemLocais[i][j];
+                                    }
+                                }
+                            }).toList());
                 }
-            }
+            });
 
             for (int i = 1; i < tamanhoIntervalo; i++) {
                 arrayContagemGlobal[i] += arrayContagemGlobal[i - 1];

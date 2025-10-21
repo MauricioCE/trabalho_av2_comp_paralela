@@ -1,0 +1,27 @@
+# Arquivos de Build
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+*.class
+/target/
+/build/
+
+# Java
+*.class
+*.log
+*.jar
+*.war
+
+# Python
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+venv/
+.venv/
+.DS_Store
+
+# Pasta Requisito
+/Resultados/

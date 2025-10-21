@@ -5,6 +5,8 @@ import java.util.Random;
 
 public class Helper {
 
+    public static final int LIMITE_SEQUENCIAL = 2048;
+
     // Gera um novo array que é cópia exata do de entrada
     public static int[] copiarArray(int[] array) {
         return Arrays.copyOf(array, array.length);

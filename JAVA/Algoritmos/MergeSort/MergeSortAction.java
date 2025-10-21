@@ -2,6 +2,8 @@ package Algoritmos.MergeSort;
 
 import java.util.concurrent.RecursiveAction;
 
+import Common.Helper;
+
 public class MergeSortAction extends RecursiveAction {
 
     private final int[] array;
@@ -17,15 +19,29 @@ public class MergeSortAction extends RecursiveAction {
     @Override
     protected void compute() {
 
-        if (inicio < fim) {
-            int meio = inicio + (fim - inicio) / 2;
+        int tamanhoDoProblema = fim - inicio;
 
+        if (tamanhoDoProblema < Helper.LIMITE_SEQUENCIAL) {
+            mergeSerial(array, inicio, fim);
+        } else if (inicio < fim) {
+            int meio = inicio + (fim - inicio) / 2;
             MergeSortAction tarefaEsquerda = new MergeSortAction(array, inicio, meio);
             MergeSortAction tarefaDireita = new MergeSortAction(array, meio + 1, fim);
 
-            // Executa ambas as tarefas e espera
             invokeAll(tarefaEsquerda, tarefaDireita);
             merge(array, inicio, meio, fim);
+        }
+
+    }
+
+    private void mergeSerial(int[] arrayParaOrdenar, int indiceInicio, int indiceFim) {
+        if (indiceInicio < indiceFim) {
+            int indiceMeio = indiceInicio + (indiceFim - indiceInicio) / 2;
+
+            mergeSerial(arrayParaOrdenar, indiceInicio, indiceMeio);
+            mergeSerial(arrayParaOrdenar, indiceMeio + 1, indiceFim);
+
+            merge(arrayParaOrdenar, indiceInicio, indiceMeio, indiceFim);
         }
     }
 

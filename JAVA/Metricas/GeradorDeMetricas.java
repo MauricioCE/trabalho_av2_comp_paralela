@@ -1,12 +1,16 @@
 package Metricas;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 import Algoritmos.Base.SorteadorBase;
 import Algoritmos.Base.SorteadorParalelo;
 import Algoritmos.CountingSort.CountSortParalelo;
@@ -16,6 +20,7 @@ import Algoritmos.MergeSort.MergeSortSerial;
 import Common.Helper;
 
 public class GeradorDeMetricas {
+
     public static void run() {
         // Semente do teste
         int seed = 6549;
@@ -28,18 +33,19 @@ public class GeradorDeMetricas {
                 new CountSortParalelo()
         };
 
-        int[] quantThreadsArr = { 1, 2, 4, 6, 8, 12, 16, 24, 32 };
-        // int[] tamanhosArr = { 100, 10000 };
-        int[] tamanhosArr = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000 };
+        int[] quantThreadsArr = { 2, 4, 8, 16, 24, 32 };
+        // int[] tamanhosArr = { 1000000, 10000000 };
+        int[] tamanhosArr = { 1000, 10000, 100000, 1000000, 10000000 };
         List<Metrica> resultadorArr = new ArrayList<>(quantThreadsArr.length * tamanhosArr.length * algoritmos.length);
 
         for (int tamanho : tamanhosArr) {
-            int[] arr = Helper.gerarArrayDeInteiros(seed, tamanho, tamanho + 1);
+            int[] arr = Helper.gerarArrayDeInteiros(seed, tamanho, 3 * tamanho + 1);
 
             for (int quantThreads : quantThreadsArr) {
                 for (SorteadorBase algoritmo : algoritmos) {
-                    System.out.println("*** Testando " + algoritmo.getNome() + " | Tamanho: " + tamanho
-                            + " | Threads: " + quantThreads + " ***");
+                    // System.out.println("*** Testando " + algoritmo.getNome() + " | Tamanho: " +
+                    // tamanho
+                    // + " | Threads: " + quantThreads + " ***");
 
                     if (algoritmo instanceof SorteadorParalelo) {
                         ((SorteadorParalelo) algoritmo).setQuantThreads(quantThreads);
@@ -50,6 +56,7 @@ public class GeradorDeMetricas {
                         Metrica metrica = new Metrica(algoritmo.getNome(), algoritmo.getTipo().name(),
                                 algoritmo.getDuracao(), algoritmo.getQuantThreads(), tamanho);
                         resultadorArr.add(metrica);
+                        System.out.println(algoritmo.getDuracao());
                     } catch (Exception e) {
                         Metrica metrica = new Metrica(algoritmo.getNome(), algoritmo.getTipo().name(),
                                 -1, algoritmo.getQuantThreads(), tamanho);
@@ -69,7 +76,7 @@ public class GeradorDeMetricas {
             return;
         }
 
-        final String NOME_PASTA = "Resultados";
+        final String NOME_PASTA = "../Resultados";
 
         try {
             Path pastaResultados = Paths.get(NOME_PASTA);
@@ -81,12 +88,14 @@ public class GeradorDeMetricas {
 
             Path caminhoCompleto = pastaResultados.resolve(nomeArquivo);
 
-            try (FileWriter escritor = new FileWriter(caminhoCompleto.toFile())) {
+            try (BufferedWriter escritor = Files.newBufferedWriter(
+                    caminhoCompleto, StandardCharsets.UTF_8)) {
 
-                escritor.append("Algoritmo,Tipo,Duracao_ms,Tamanho_Array,Threads\n");
+                escritor.append("Algoritmo;Tipo;Duração (ms);Tamanho do array;Quant. de threads\n");
 
                 for (Metrica metrica : resultados) {
                     String linha = String.format(
+                            Locale.US,
                             "%s;%s;%.4f;%d;%d\n",
                             metrica.getNomeAlgoritmo(),
                             metrica.getTipoAlgoritmo(),

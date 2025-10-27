@@ -19,6 +19,8 @@ import Algoritmos.MergeSort.MergeSortParalelo;
 import Algoritmos.MergeSort.MergeSortSerial;
 import Algoritmos.QuickSort.QuickSortParalelo;
 import Algoritmos.QuickSort.QuickSortSerial;
+import Algoritmos.SelectionSort.SelectionSortParalelo;
+import Algoritmos.SelectionSort.SelectionSortSerial;
 import Common.Helper;
 
 public class GeradorDeMetricas {
@@ -67,6 +69,8 @@ public class GeradorDeMetricas {
                         System.out.println(metrica.getNomeAlgoritmo());
 
                         System.out.println("Duração: " + algoritmo.getDuracao());
+                        System.out.println("Quant. Threads: " + quantThreads);
+                        System.out.println("Tamanho Array: " + tamanho);
                         System.out.println("Progresso: " + ++count + "/" + total);
                         System.out.println("-------------------------------");
 

@@ -35,7 +35,7 @@ public class GeradorDeMetricas {
 
         int[] quantThreadsArr = { 2, 4, 8, 16, 24, 32 };
         // int[] tamanhosArr = { 1000000, 10000000 };
-        int[] tamanhosArr = { 1000, 10000, 100000, 1000000, 10000000 };
+        int[] tamanhosArr = { 1000, 10000, 100000, 1000000, 10_000_000 };
         List<Metrica> resultadorArr = new ArrayList<>(quantThreadsArr.length * tamanhosArr.length * algoritmos.length);
 
         int count = 0;

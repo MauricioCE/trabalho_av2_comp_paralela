@@ -10,7 +10,7 @@ public class MergeSortSerial extends SorteadorSerial {
 
     @Override
     public String getNome() {
-        return "Mergesort Serial";
+        return "Mergesort";
     }
 
     @Override

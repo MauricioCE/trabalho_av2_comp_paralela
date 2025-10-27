@@ -24,4 +24,4 @@ venv/
 .DS_Store
 
 # Pasta Requisito
-/Resultados/
+/Resultados/*

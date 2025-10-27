@@ -12,7 +12,7 @@ public class CountSortParalelo extends SorteadorParalelo {
 
     @Override
     public String getNome() {
-        return "Countsort Paralelo";
+        return "Countsort";
     }
 
     @Override

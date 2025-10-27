@@ -11,7 +11,7 @@ public class CountSortSerial extends SorteadorSerial {
 
     @Override
     public String getNome() {
-        return "Countsort Serial";
+        return "Countsort";
     }
 
     @Override

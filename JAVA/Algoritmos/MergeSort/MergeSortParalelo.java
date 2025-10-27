@@ -11,7 +11,7 @@ public class MergeSortParalelo extends SorteadorParalelo {
 
     @Override
     public String getNome() {
-        return "Mergesort Paralelo";
+        return "Mergesort";
     }
 
     @Override

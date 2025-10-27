@@ -17,6 +17,8 @@ import Algoritmos.CountingSort.CountSortParalelo;
 import Algoritmos.CountingSort.CountSortSerial;
 import Algoritmos.MergeSort.MergeSortParalelo;
 import Algoritmos.MergeSort.MergeSortSerial;
+import Algoritmos.QuickSort.QuickSortParalelo;
+import Algoritmos.QuickSort.QuickSortSerial;
 import Common.Helper;
 
 public class GeradorDeMetricas {
@@ -30,7 +32,11 @@ public class GeradorDeMetricas {
                 new MergeSortSerial(),
                 new MergeSortParalelo(),
                 new CountSortSerial(),
-                new CountSortParalelo()
+                new CountSortParalelo(),
+                new QuickSortSerial(),
+                new QuickSortParalelo(),
+                new SelectionSortSerial(),
+                new SelectionSortParalelo(),
         };
 
         int[] quantThreadsArr = { 2, 4, 8, 16, 24, 32 };

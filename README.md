@@ -31,7 +31,7 @@ As bibliotecas a seguir são as dependências principais para análise de dados:
 
 ### 4. Comando de Instalação
 
-Para instalar todas as dependências de uma vez (idealmente usando um arquivo `requirements.txt`):
+Para instalar todas as dependências de uma vez:
 
 ```bash
 # Certifique-se de que o ambiente virtual está ativo

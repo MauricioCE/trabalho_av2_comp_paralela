@@ -11,7 +11,7 @@ public class QuickSortParalelo extends SorteadorParalelo {
 
     @Override
     public String getNome() {
-        return "Quicksort Paralelo";
+        return "Quicksort";
     }
 
     @Override

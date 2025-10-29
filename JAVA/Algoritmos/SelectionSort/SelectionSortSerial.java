@@ -10,7 +10,7 @@ public class SelectionSortSerial extends SorteadorSerial {
 
     @Override
     public String getNome() {
-        return "Selection Sort Serial";
+        return "Selectionsort";
     }
 
     @Override

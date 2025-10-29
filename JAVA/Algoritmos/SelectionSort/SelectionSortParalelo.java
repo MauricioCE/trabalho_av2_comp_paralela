@@ -13,7 +13,7 @@ public class SelectionSortParalelo extends SorteadorParalelo {
 
     @Override
     public String getNome() {
-        return "Selection Sort Paralelo";
+        return "Selectionsort";
     }
 
     @Override
@@ -29,11 +29,6 @@ public class SelectionSortParalelo extends SorteadorParalelo {
 
         try (ForkJoinPool pool = new ForkJoinPool(quantThreads)) {
             for (int i = 0; i < array.length - 1; i++) {
-                // Imprime o progresso a cada 1000 iterações
-                if (i % 1000 == 0) {
-                    System.out.println("Selection Sort Paralelo: Processando item " + i + " de " + (array.length -1) + "...");
-                }
-
                 // Encontra o índice do menor elemento no resto do array de forma paralela
                 FindMinIndexTask task = new FindMinIndexTask(array, i, array.length - 1);
                 int minIndex = pool.invoke(task);

@@ -10,7 +10,7 @@ public class QuickSortSerial extends SorteadorSerial {
 
     @Override
     public String getNome() {
-        return "Quicksort Serial";
+        return "Quicksort";
     }
 
     @Override
